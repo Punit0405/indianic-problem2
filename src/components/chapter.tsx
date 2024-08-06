@@ -1,6 +1,6 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import getApiCall from './axiosServices';
 
 //This components is used to display all the chapters of a book
 /**
@@ -9,14 +9,14 @@ import { useParams } from 'react-router-dom';
  * @return {JSX.Element} The rendered chapter summary and title.
  */
 
-const Chapter = () => {
+const Chapter:React.FC = () => {
   const { bookId, chapterId } = useParams();
-  const [chapterSummary, setChapterSummary] = useState("");
-  const [chapterTitle, setChapterTitle] = useState("");
+  const [chapterSummary, setChapterSummary] = useState<string>("");
+  const [chapterTitle, setChapterTitle] = useState<string>("");
   const fetchChapter = async () => {
     try {
       const url = `https://api.potterdb.com/v1/books/${bookId}/chapters/${chapterId}`;
-      const chapterData = await axios.get(url);
+      const chapterData = await getApiCall(url);
       if (chapterData?.data?.data.attributes.summary) {
         setChapterSummary(chapterData?.data?.data.attributes.summary);
       } else {
